@@ -34,6 +34,11 @@ def init_db():
         """)
 
 
+# Ensure the schema exists when the app is loaded by a production server such
+# as Gunicorn, where this module is imported instead of run as __main__.
+init_db()
+
+
 @app.route("/", methods=["GET", "POST"])
 def home():
     with get_db() as db:
@@ -347,5 +352,4 @@ footer { text-align: center; padding: 25px; color: #718096; font-size: 13px; }
 
 
 if __name__ == "__main__":
-    init_db()
     app.run(debug=True)
